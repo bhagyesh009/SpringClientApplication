@@ -8,9 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SpringService {
 
-
-	User user = null;
-
 	public String getUserService(int id) {
 		return new Client().getClient(id);
 	}
@@ -21,16 +18,16 @@ public class SpringService {
 	}
 
 	public String insertUserService(String data) throws JsonMappingException, JsonProcessingException {
-		
-		user = new User();
-		user = new ObjectMapper().readValue(data, User.class);
-		user.setMobNo(Long.parseLong(("91" + Long.toString(user.getMobNo()))));
-		return new Client().insertClient(user);
+
+		//User user = new User();
+		//user = new ObjectMapper().readValue(data, User.class);
+		new ObjectMapper().readValue(data, User.class).setMobNo(Long.parseLong(("91" + Long.toString(new ObjectMapper().readValue(data, User.class).getMobNo()))));
+		return new Client().insertClient(new ObjectMapper().readValue(data, User.class));
 
 	}
 
-	public String updateUserService(int id) {
-		return new Client().deleteClient(id);
+	public String updateUserService(int id, String data) {
+		return new Client().updateClient(id, data);
 
 	}
 
